@@ -23,27 +23,34 @@
 // }
 
 // export default App;
+import './index.css';
+import logo from './images/logo.svg';
+import custo from './images/custo.jpg';
+import edit from './images/edit.svg';
+import add from './images/add.svg';
+import trash from './images/trash.svg';
+
 function App() {
 return (
-<body classNameName="page">
-  <div classNameName="page__container">
+<body className="page">
+  <div className="page__container">
     <header className="header section page__header">
-      <img className="header__logo" src="<%=require('./images/logo.svg')%>" alt="Логотип Место Россия"/>       
+      <img className="header__logo" src={logo} alt="Логотип Место Россия"/>       
     </header>
     <main className="page__content">
       <div className="profile">
-        <img className="profile__image" src="<%=require('./images/custo.jpg')%>" alt="Изображение Жака Кусто"/>
+        <img className="profile__image" src={custo} alt="Изображение Жака Кусто"/>
         <div className="profile__image-edit">
         </div>
         <div className="profile__info">
           <h1 className="profile__title"></h1>
           <button className="profile__edit-button" type="button">
-            <img src="<%=require('./images/edit.svg')%>" alt="Кнопка - редактирование"/>
+            <img src={edit} alt="Кнопка - редактирование"/>
           </button>
           <p className="profile__subtitle"></p>
         </div>
         <button className="profile__add-button" type="button">
-          <img src="<%=require('./images/add.svg')%>" alt="Кнопка - добавить"/>
+          <img src={add} alt="Кнопка - добавить"/>
         </button>
       </div>
       <section className="elements">
@@ -133,7 +140,7 @@ return (
 <template className="template">
   <article className="elements__item">
     <button className="elements__button-delete" type="button">
-      <img src="<%=require('./images/trash.svg')%>" alt="Удалить"/>
+      <img src={trash} alt="Удалить"/>
     </button>
     <img className="elements__image"/>
     <div className="elements__describe">
