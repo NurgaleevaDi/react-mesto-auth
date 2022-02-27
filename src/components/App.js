@@ -23,6 +23,7 @@
 // }
 
 // export default App;
+import React from 'react';
 import '../index.css';
 import trash from '../images/trash.svg';
 import Header from './Header';
@@ -32,13 +33,32 @@ import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 
 function App() {
+
+const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
+const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+
+function handleEditProfileClick() {
+  setIsEditProfilePopupOpen(!isEditProfilePopupOpen); 
+}
+function handleAddPlaceClick() {
+  setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
+}
+function handleEditAvatarClick() {
+  setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
+}
+
 return (
 <body className="page">
   <div className="page__container">
     <Header />
-    <Main />
+    <Main 
+    onEditProfile={handleEditProfileClick}
+    onAddPlace={handleAddPlaceClick}
+    onEditAvatar={handleEditAvatarClick}
+     />
     <Footer />
-    <PopupWithForm name="profile-popup" title="Редактировать профиль" button="Сохранить">
+    <PopupWithForm name="profile-popup" title="Редактировать профиль" button="Сохранить" isOpen={isEditProfilePopupOpen}>
       <input type="text" className="popup__input-text popup__input-text_type_name" id="popup-name" name="name" placeholder="Имя" required
         minlength="2" maxlength="40" /> 
       <span id="popup-name-error" className="error"></span>
@@ -46,15 +66,15 @@ return (
         minlength="2" maxlength="200" />
       <span id="popup-specialty-error" className="error"></span>
     </PopupWithForm>
-    <PopupWithForm name="card-popup" title="Новое место" button="Создать">
+    <PopupWithForm name="card-popup" title="Новое место" button="Создать" isOpen={isAddPlacePopupOpen}>
       <input type="text" className="popup__input-text popup__input-text_type_title" id="popup-title" name="name" placeholder="Название" required
         minlength="2" maxlength="30" /> 
       <span id="popup-title-error" className="error"></span>
       <input type="url" className="popup__input-text popup__input-text_type_image" id="popup-image" name="link" placeholder="Ссылка" required />
       <span id="popup-image-error" className="error"></span>
     </PopupWithForm>
-    <PopupWithForm name="confirm-popup" title="Обновить аватар" button="Да" />
-    <PopupWithForm name="avatar-popup" title="Новое место" button="Сохранить">
+    <PopupWithForm name="confirm-popup" title="Вы уверены?" button="Да" />
+    <PopupWithForm name="avatar-popup" title="Обновить аватар" button="Сохранить" isOpen={isEditAvatarPopupOpen}>
       <input type="url" className="popup__input-text popup__input-text_type_image popup__input-text_type_avatarUrl" id="popup-avatar" name="name" placeholder="Ссылка на аватар" required
         minlength="2" maxlength="300"/> 
       <span id="popup-avatar-error" className="error"></span>
