@@ -29,6 +29,7 @@ import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
+import ImagePopup from './ImagePopup';
 
 function App() {
 return (
@@ -58,17 +59,9 @@ return (
         minlength="2" maxlength="300"/> 
       <span id="popup-avatar-error" className="error"></span>
     </PopupWithForm>
-
-    <div className="popup popup-image">
-      <div className="popup-overlay popup-overlay-image popup__close"></div>
-      <div className="popup-image__content">
-        <button className="popup-image__button popup__close" type="button">
-        </button>
-        <img className="popup-image__image" src="#" alt="Изображение"/>
-        <p className="popup-image__title"></p>
-      </div>  
-    </div>
-  </div>
+    <ImagePopup />
+</div>
+  
 
   
 <template className="template">
