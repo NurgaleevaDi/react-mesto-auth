@@ -1,8 +1,8 @@
 import React from 'react';
-import custo from '../images/custo.jpg';
 import edit from '../images/edit.svg';
 import add from '../images/add.svg';
 import Api from '../utils/api.js';
+import Card from '../components/Card.js';
 
 function Main(props) {
   const [userName, setUserName] = React.useState([]);
@@ -36,6 +36,20 @@ function Main(props) {
       });
     }, []);
 
+    const [cards, setCards] = React.useState([]);
+    React.useEffect( () => {
+      Api.getCards(cards).then((data) => {
+        setCards(
+          data.map((c) => ({
+            src: c.link,
+            name: c.name,
+            alt: c.name
+          }))
+        )
+      })
+
+    }, []);
+
     return (
       <>
         <main className="page__content">
@@ -55,8 +69,10 @@ function Main(props) {
           </button>
           </div>
           <section className="elements">
+            {cards.map((c) => <Card key={c._id} {...c}/>)}
           </section>
         </main>
+    
       </>
     )
 }
