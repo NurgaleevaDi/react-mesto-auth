@@ -2,8 +2,17 @@ import React from 'react';
 import custo from '../images/custo.jpg';
 import edit from '../images/edit.svg';
 import add from '../images/add.svg';
+import Api from '../utils/api.js';
 
 function Main(props) {
+  const [userName, setUserName] = React.useState([]);
+  React.useEffect (() => {
+    Api.getUserData(userName).then((data) => {
+      setUserName(
+      console.log(data.about));
+    });
+   }, [userName]);
+
     // function handleEditProfileClick() {
     //    document.querySelector('.profile-popup').classList.add('popup_opened');
     // }
