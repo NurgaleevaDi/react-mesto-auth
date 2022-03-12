@@ -15,7 +15,11 @@ function Main(props) {
       setUserName({title:data.about}); 
       setUserDescription({name:data.name});
       setUserAvatar({avatar:data.avatar});
-    });
+    })
+    .catch((err) =>{
+      console.log(err);
+      }
+    );
   }, []);
   React.useEffect( () => {
     Api.getCards(cards).then((data) => {
@@ -25,10 +29,14 @@ function Main(props) {
           name: card.name,
           alt: card.name,
           id: card._id,
-        }))
+        })
+        )
       )
     })
-
+    .catch((err) =>{
+      console.log(err);
+      }
+    );
   }, []);
     
     return (

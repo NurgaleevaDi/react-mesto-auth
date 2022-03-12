@@ -23,7 +23,7 @@ function handleEditAvatarClick() {
   setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
 }
 function handleCardClick(name, link) {
-  setSelectedCard({name: name, link: link});
+  setSelectedCard({name, link});
 }
 
 function closeAllPopups() {
