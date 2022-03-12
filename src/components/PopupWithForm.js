@@ -1,7 +1,8 @@
 import React from "react";
 function PopupWithForm(props){
     return(
-    <div className={props.isOpen ? `popup ${props.name} popup_opened` : `popup ${props.name}`}>
+    <div className={`popup ${props.isOpen && `popup_opened`}`}>
+    {/* <div className={props.isOpen ? `popup ${props.name} popup_opened` : `popup ${props.name}`}> */}
     <div className="popup-overlay popup__close"></div>
     <div className="popup__content">  
       <button className="popup__button popup__close" type="button" onClick={props.onClose}>

@@ -5,51 +5,31 @@ import Api from '../utils/api.js';
 import Card from '../components/Card.js';
 
 function Main(props) {
-  const [userName, setUserName] = React.useState([]);
+  const [userName, setUserName] = React.useState('');
+  const [userDescription, setUserDescription] = React.useState('');
+  const [userAvatar, setUserAvatar] = React.useState('');
+  const [cards, setCards] = React.useState([]);
+
   React.useEffect( () => {
     Api.getUserData(userName).then((data) => {
-      setUserName(
-        {
-          title: data.about
-        }
-      )
+      setUserName({title:data.about}); 
+      setUserDescription({name:data.name});
+      setUserAvatar({avatar:data.avatar});
     });
   }, []);
-    const [userDescription, setUserDescription] = React.useState([]);
-    React.useEffect( () => {
-      Api.getUserData(userDescription).then((data) => {
-        setUserDescription(
-          {
-            name: data.name
-          }
-        )
-      });
-    }, []);
-    const [userAvatar, setUserAvatar] = React.useState([]);
-    React.useEffect( () => {
-      Api.getUserData(userAvatar).then((data) => {
-        setUserAvatar(
-          {
-            avatar: data.avatar
-          }
-        )
-      });
-    }, []);
+  React.useEffect( () => {
+    Api.getCards(cards).then((data) => {
+      setCards(
+        data.map((card) => ({
+          src: card.link,
+          name: card.name,
+          alt: card.name,
+          id: card._id,
+        }))
+      )
+    })
 
-    const [cards, setCards] = React.useState([]);
-    React.useEffect( () => {
-      Api.getCards(cards).then((data) => {
-        setCards(
-          data.map((card) => ({
-            src: card.link,
-            name: card.name,
-            alt: card.name,
-            id: card._id,
-          }))
-        )
-      })
-
-    }, []);
+  }, []);
     
     return (
       <>
