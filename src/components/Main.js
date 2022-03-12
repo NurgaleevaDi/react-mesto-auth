@@ -40,16 +40,17 @@ function Main(props) {
     React.useEffect( () => {
       Api.getCards(cards).then((data) => {
         setCards(
-          data.map((c) => ({
-            src: c.link,
-            name: c.name,
-            alt: c.name
+          data.map((card) => ({
+            src: card.link,
+            name: card.name,
+            alt: card.name,
+            id: card._id,
           }))
         )
       })
 
     }, []);
-
+    
     return (
       <>
         <main className="page__content">
@@ -69,7 +70,7 @@ function Main(props) {
           </button>
           </div>
           <section className="elements">
-            {cards.map((c) => <Card key={c._id} {...c}/>)}
+            {cards.map((card) => <Card key={card.id} {...card} onCardClick={props.onCardClick}/>)}
           </section>
         </main>
     
