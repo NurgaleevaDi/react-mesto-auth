@@ -6,6 +6,7 @@ import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import Api from '../utils/api.js';
+import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 
 function App() {
 
@@ -48,6 +49,7 @@ function closeAllPopups() {
 }
 
 return (
+<CurrentUserContext.Provider value={currentUser}> //внедряем данные с помощью провайдера контекста
 <body className="page">
   <div className="page__container">
     <Header />
@@ -97,7 +99,7 @@ return (
                 onClose={closeAllPopups}/>
   </div> 
 </body>
-
+</CurrentUserContext.Provider>
 );
 }
 export default App;
