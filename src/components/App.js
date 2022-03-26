@@ -41,6 +41,8 @@ function handleCardClick(name, link) {
   setSelectedCard({name, link});
 }
 
+
+
 function closeAllPopups() {
   setIsEditProfilePopupOpen(false);
   setIsEditAvatarPopupOpen(false);
@@ -49,7 +51,7 @@ function closeAllPopups() {
 }
 
 return (
-<CurrentUserContext.Provider value={currentUser}> //внедряем данные с помощью провайдера контекста
+<CurrentUserContext.Provider value={currentUser}>
 <body className="page">
   <div className="page__container">
     <Header />

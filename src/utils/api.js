@@ -85,6 +85,18 @@ class Api{
     }).then(this._handleResponse)
     }
 
+    changeLikeCardStatus(cardId, isLiked) {
+        return fetch (`${this._address}/cards/${cardId}/likes`,{
+            method: isLiked ? 'PUT' : 'DELETE',
+            headers: {
+                authorization: this._token,
+                'Content-Type': 'application/json'
+            }
+        }).then(this._handleResponse)   
+    }
+
+
+
     editUserAvatar(url){
         return fetch(`${this._address}/users/me/avatar`,{
             method:'PATCH',
