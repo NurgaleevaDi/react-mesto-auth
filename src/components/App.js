@@ -7,6 +7,7 @@ import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import Api from '../utils/api.js';
 import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 
 function App() {
@@ -42,9 +43,21 @@ function handleCardClick(name, link) {
   setSelectedCard({name, link});
 }
 function handleUpdateUser(currentUser){
+  console.log(currentUser);
   Api.profileEdit(currentUser.name, currentUser.about).then((data) => {
     setCurrentUser(data);
-    console.log(data);
+    
+  })
+  .catch((err)=>{
+    console.log(err);
+  })
+  .finally(closeAllPopups())
+}
+
+function handleUpdateAvatar(currentUser){
+  console.log(currentUser);
+  Api.editUserAvatar(currentUser.avatar).then((data) => {
+    setCurrentUser(data);
   })
   .catch((err)=>{
     console.log(err);
@@ -75,18 +88,7 @@ return (
     <EditProfilePopup isOpen={isEditProfilePopupOpen} 
                       onClose={closeAllPopups}
                       onUpdateUser={handleUpdateUser} />
-    {/* <PopupWithForm name="profile-popup" 
-                   title="Редактировать профиль" 
-                   button="Сохранить" 
-                   isOpen={isEditProfilePopupOpen} 
-                   onClose={closeAllPopups}>
-      <input type="text" className="popup__input-text popup__input-text_type_name" id="popup-name" name="name" placeholder="Имя" required
-        minLength="2" maxLength="40" /> 
-      <span id="popup-name-error" className="error"></span>
-      <input type="text" className="popup__input-text popup__input-text_type_specialty" id="popup-specialty" name="about" placeholder="Специальность" required
-        minLength="2" maxLength="200" />
-      <span id="popup-specialty-error" className="error"></span>
-    </PopupWithForm> */}
+  
     <PopupWithForm name="card-popup" 
                    title="Новое место" 
                    button="Создать" 
@@ -101,7 +103,11 @@ return (
     <PopupWithForm name="confirm-popup" 
                    title="Вы уверены?" 
                    button="Да" />
-    <PopupWithForm name="avatar-popup" 
+
+<EditAvatarPopup isOpen={isEditAvatarPopupOpen} 
+                 onClose={closeAllPopups} 
+                 onUpdateAvatar={handleUpdateAvatar}/>
+    {/* <PopupWithForm name="avatar-popup" 
                    title="Обновить аватар" 
                    button="Сохранить" 
                    isOpen={isEditAvatarPopupOpen} 
@@ -109,7 +115,7 @@ return (
       <input type="url" className="popup__input-text popup__input-text_type_image popup__input-text_type_avatarUrl" id="popup-avatar" name="name" placeholder="Ссылка на аватар" required
         minLength="2" maxLength="300"/> 
       <span id="popup-avatar-error" className="error"></span>
-    </PopupWithForm>
+    </PopupWithForm> */}
     <ImagePopup card={selectedCard} 
                 onClose={closeAllPopups}/>
   </div> 
