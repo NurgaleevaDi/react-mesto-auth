@@ -57,7 +57,9 @@ function Main(props) {
   }
 
   function handleCardDelete(card) {
-
+    Api.deleteCard(card.id).then((newCard) =>{
+      setCards((state) => state.filter((c) => c._id === card.id ? newCard :c));
+    });
   }
     
     return (

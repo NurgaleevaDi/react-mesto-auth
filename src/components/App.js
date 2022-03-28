@@ -6,6 +6,7 @@ import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import Api from '../utils/api.js';
+import EditProfilePopup from './EditProfilePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 
 function App() {
@@ -18,7 +19,7 @@ const [selectedCard, setSelectedCard] = React.useState({});
 const [currentUser, setCurrentUser] = React.useState(''); // исходное состояние надо уточнить
 
 React.useEffect( () => {
-  Api.getUserData(currentUser).then((data) => {
+  Api.getUserData().then((data) => {
     setCurrentUser(data); // уточнить параметр в скобках
   })
   .catch((err) =>{
@@ -40,7 +41,16 @@ function handleEditAvatarClick() {
 function handleCardClick(name, link) {
   setSelectedCard({name, link});
 }
-
+function handleUpdateUser(currentUser){
+  Api.profileEdit(currentUser.name, currentUser.about).then((data) => {
+    setCurrentUser(data);
+    console.log(data);
+  })
+  .catch((err)=>{
+    console.log(err);
+  })
+  .finally(closeAllPopups())
+}
 
 
 function closeAllPopups() {
@@ -62,7 +72,10 @@ return (
       onCardClick={handleCardClick}
      />
     <Footer />
-    <PopupWithForm name="profile-popup" 
+    <EditProfilePopup isOpen={isEditProfilePopupOpen} 
+                      onClose={closeAllPopups}
+                      onUpdateUser={handleUpdateUser} />
+    {/* <PopupWithForm name="profile-popup" 
                    title="Редактировать профиль" 
                    button="Сохранить" 
                    isOpen={isEditProfilePopupOpen} 
@@ -73,7 +86,7 @@ return (
       <input type="text" className="popup__input-text popup__input-text_type_specialty" id="popup-specialty" name="about" placeholder="Специальность" required
         minLength="2" maxLength="200" />
       <span id="popup-specialty-error" className="error"></span>
-    </PopupWithForm>
+    </PopupWithForm> */}
     <PopupWithForm name="card-popup" 
                    title="Новое место" 
                    button="Создать" 
