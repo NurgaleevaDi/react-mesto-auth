@@ -7,7 +7,6 @@ function EditAvatarPopup(props) {
 
   function handleChange(e){
       setValue(e.target.value);
-      console.log(e.target);
   }
   function handleSubmit(e) {
     e.preventDefault();
@@ -15,6 +14,7 @@ function EditAvatarPopup(props) {
     props.onUpdateAvatar({
       avatar: value,
     });
+    
   }
 
 return(

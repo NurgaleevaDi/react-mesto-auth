@@ -12,10 +12,7 @@
 .elements__button-delete:hover {
   opacity: 0.5;
 }
-.elements__button-delete_visible{
-  background: yellow;
-}
 
 .elements__button-delete_hidden{
-  background: red;
+  display: none;
 }
