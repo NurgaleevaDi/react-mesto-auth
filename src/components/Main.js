@@ -7,7 +7,6 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 function Main(props) {
   const currentUser = React.useContext(CurrentUserContext);
     return (
-      <>
         <main className="page__content">
           <div className="profile">
             <img className="profile__image" src={currentUser.avatar} alt="Аватар"/>
@@ -33,8 +32,6 @@ function Main(props) {
                                   onCardDelete={props.handleCardDelete}/>)}
           </section>
         </main>
-    
-      </>
     )
 }
 export default Main;
