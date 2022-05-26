@@ -13,7 +13,7 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
-import { Route, Redirect, Switch } from 'react-router-dom';
+import { Route, Redirect, Switch, useHistory } from 'react-router-dom';
 import * as auth from '../utils/auth.js';
 import ProtectedRoute from './ProtectedRoute';
 
@@ -31,6 +31,7 @@ const [selectedCard, setSelectedCard] = React.useState({});
 const [currentUser, setCurrentUser] = React.useState({}); 
 
 const [loggedIn, setLoggedIn] = React.useState(false);
+const history = useHistory();
 
 React.useEffect( () => {
   Api.getUserData().then((data) => {
@@ -145,6 +146,12 @@ const [cards, setCards] = React.useState([]);
       })
   }
 
+  function handleRegister(email, password){
+    return auth.register(email, password).then(() => {
+      history.push('/sign-in')
+    })
+  }
+
 return (
 <>
 
@@ -189,7 +196,7 @@ return (
   <Login handleLogin={handleLogin}/>
 </Route>
 <Route path="/sign-up">
-  <Register/>
+  <Register handleRegister={handleRegister}/>
 </Route>
 <Route>
   {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
