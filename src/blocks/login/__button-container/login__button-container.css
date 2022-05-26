@@ -1,0 +1,10 @@
+.login__button-container{
+    margin: 0 auto;
+    width: 358px;
+    min-height: 50px;
+    border-radius: 2px;
+    background-color: #FFFFFF;
+    margin-top: 216px;
+    display: flex;
+    justify-content: center;
+}

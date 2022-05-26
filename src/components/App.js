@@ -5,11 +5,20 @@ import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
+import Login from './Login';
+import Register from './Register';
 import Api from '../utils/api.js';
+// import auth from '../utils/auth.js';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
+import { Route, Redirect, Switch } from 'react-router-dom';
+import * as auth from '../utils/auth.js';
+import ProtectedRoute from './ProtectedRoute';
+
+
+
 
 
 function App() {
@@ -20,6 +29,8 @@ const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
 const [selectedCard, setSelectedCard] = React.useState({});
 
 const [currentUser, setCurrentUser] = React.useState({}); 
+
+const [loggedIn, setLoggedIn] = React.useState(false);
 
 React.useEffect( () => {
   Api.getUserData().then((data) => {
@@ -126,51 +137,72 @@ const [cards, setCards] = React.useState([]);
     })
   }
 
+
+  const handleLogin = (password, email) => {
+    return auth.authorize(password, email)
+      .then((data) => {
+        console.log(data);
+      })
+  }
+
 return (
+<>
+
 <CurrentUserContext.Provider value={currentUser}>
 <body className="page">
   <div className="page__container">
-    <Header />
-    <Main 
-      onEditProfile={handleEditProfileClick}
-      onAddPlace={handleAddPlaceClick}
-      onEditAvatar={handleEditAvatarClick}
-      onCardClick={handleCardClick}
-      cards={cards}
-      handleCardLike={handleCardLike}
-      handleCardDelete={handleCardDelete}/>
+  
+  <Switch>
+  
+    <ProtectedRoute path="/" loggedIn={loggedIn}>
+    
+    <Header link="Выйти"/>
+      <Main 
+        onEditProfile={handleEditProfileClick}
+        onAddPlace={handleAddPlaceClick}
+        onEditAvatar={handleEditAvatarClick}
+        onCardClick={handleCardClick}
+        cards={cards}
+       handleCardLike={handleCardLike}
+        handleCardDelete={handleCardDelete}/>
+    </ProtectedRoute>
     <Footer />
+  </Switch>
+    
     <EditProfilePopup isOpen={isEditProfilePopupOpen} 
                       onClose={closeAllPopups}
                       onUpdateUser={handleUpdateUser} />
     <AddPlacePopup isOpen={isAddPlacePopupOpen}
                    onClose={closeAllPopups}
                    onAddPlace={handleAddPlaceSubmit} />
-  
-    {/* <PopupWithForm name="card-popup" 
-                   title="Новое место" 
-                   button="Создать" 
-                   isOpen={isAddPlacePopupOpen} 
-                   onClose={closeAllPopups}>
-      <input type="text" className="popup__input-text popup__input-text_type_title" id="popup-title" name="name" placeholder="Название" required
-        minLength="2" maxLength="30" /> 
-      <span id="popup-title-error" className="error"></span>
-      <input type="url" className="popup__input-text popup__input-text_type_image" id="popup-image" name="link" placeholder="Ссылка" required />
-      <span id="popup-image-error" className="error"></span>
-    </PopupWithForm> */}
     <PopupWithForm name="confirm-popup" 
                    title="Вы уверены?" 
                    button="Да" />
-
     <EditAvatarPopup isOpen={isEditAvatarPopupOpen} 
                  onClose={closeAllPopups} 
                  onUpdateAvatar={handleUpdateAvatar}/>
 
     <ImagePopup card={selectedCard} 
                 onClose={closeAllPopups}/>
+
+<Route path="/sign-in">
+  <Login handleLogin={handleLogin}/>
+</Route>
+<Route path="/sign-up">
+  <Register/>
+</Route>
+<Route>
+  {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
+</Route>
+
   </div> 
 </body>
 </CurrentUserContext.Provider>
+
+
+
+
+</>
 );
 }
 export default App;

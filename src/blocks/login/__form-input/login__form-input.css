@@ -1,0 +1,19 @@
+.login__form-input{
+    margin: 0 auto;
+    padding: 0;
+    margin-bottom: 30px;
+    width: 358px;
+    min-height: 27px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid #CCCCCC;
+    font-family: Inter, Arial, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.21;
+    color: #CCCCCC;
+}
+.login__form-input:last-child{
+    margin-bottom: 0px;
+}
