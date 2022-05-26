@@ -1,8 +1,6 @@
 export const BASE_URL = 'https://auth.nomoreparties.co';
 
 function checkResponse(res) {
-  console.log(res);
-
   return res.ok ? res.json() : Promise.reject(`'Ошибка': ${res.status}`);
 };
 
@@ -25,8 +23,8 @@ export function authorize(email, password) {
 };
 
 export function getContent(token) {
-  return fetch (`${BASE_URL}/signup`, {
-    method: 'POST',
+  return fetch (`${BASE_URL}/users/me`, {
+    method: 'GET',
     headers:{ 
       'Content-Type': 'application/json',
       'Authorization' : `Bearer ${token}`},

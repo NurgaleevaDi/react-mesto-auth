@@ -6,7 +6,7 @@ function Header(props) {
       <>
         <header className="header section page__header">
           <img className="header__logo" src={logo} alt="Логотип Место Россия"/> 
-          <Link to="/sign-up" className="header__link">{props.name}</Link>     
+          <Link to={props.link} className="header__link">{props.name}</Link>     
         </header>
       </>
     )

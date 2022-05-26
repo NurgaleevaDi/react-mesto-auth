@@ -3,27 +3,38 @@ import { Link } from "react-router-dom";
 import Header from "./Header";
 
 
-function Login(){
+function Login(props){
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
 
+  function handleChangeEmail(e) {
+    setEmail(e.target.value);
+  }
+
+  function handleChangePassword(e) {
+    setPassword(e.target.value);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    props.handleLogin(email, password);
+  }
 
     return(
         <>
-        {/* <div className="page">
-          <div className="page__container"> */}
             <Header link="/sign-up"
                     name="Регистрация" />
 
-            <form className="login__form">
+            <form className="login__form" onSubmit={handleSubmit}>
               <h2 className="login__form-title">Вход</h2>
-              <input type="text" className="login__form-input" placeholder="Email"></input>
-              <input type="text" className="login__form-input" placeholder="Пароль"></input>
+              <input type="text" className="login__form-input" placeholder="Email"
+              value={email} onChange={handleChangeEmail}></input>
+              <input type="password" className="login__form-input" placeholder="Пароль"
+                value={password} onChange={handleChangePassword}></input>
+              <div className="login__button-container">
+                <button type="submit" className="login__button">Войти</button>
+              </div>
             </form>
-            <div className="login__button-container">
-              <button type="submit" className="login__button">Войти</button>
-            </div>
-
-          {/* </div>
-        </div> */}
         </>
     )
 }

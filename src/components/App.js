@@ -138,19 +138,35 @@ const [cards, setCards] = React.useState([]);
     })
   }
 
-
-  const handleLogin = (password, email) => {
-    return auth.authorize(password, email)
-      .then((data) => {
-        console.log(data);
-      })
-  }
-
-  function handleRegister(email, password){
+  function handleRegister(email, password) {
     return auth.register(email, password).then(() => {
       history.push('/sign-in')
     })
   }
+
+  function handleLogin(email, password) {
+    return auth.authorize(email, password)
+      .then((data) => {
+        if (data.token) {
+          localStorage.setItem('jwt', data.token);
+          
+          tokenCheck();
+        }
+      })
+  }
+
+  function tokenCheck() {
+   
+    if (localStorage.getItem('jwt')){
+      let jwt = localStorage.getItem('jwt');
+      auth.getContent(jwt).then((res) => {
+        if(res) {
+          setLoggedIn(true);
+        }
+      })
+    }
+  }
+
 
 return (
 <>
@@ -196,7 +212,7 @@ return (
   <Login handleLogin={handleLogin}/>
 </Route>
 <Route path="/sign-up">
-  <Register handleRegister={handleRegister}/>
+  <Register handleRegister={handleRegister} link={"/sign-in"}/>
 </Route>
 <Route>
   {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
