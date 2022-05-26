@@ -7,6 +7,8 @@ function Register(props){
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+ 
+  // const [registerStatus, setRegisterStatus] = React.useState(false);
 
   function handleChangeEmail(e) {
     setEmail(e.target.value);
@@ -19,6 +21,9 @@ function Register(props){
   function handleSubmit(e) {
     e.preventDefault();
     props.handleRegister(email, password);
+    
+
+
   }
 
 
@@ -38,7 +43,7 @@ function Register(props){
               </div>
             </form>
               <Link className="login__link" to="/sign-in">Уже зарегистрированы? Войти</Link>
-             
+              
 
         </>
     )

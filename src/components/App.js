@@ -16,6 +16,7 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 import { Route, Redirect, Switch, useHistory } from 'react-router-dom';
 import * as auth from '../utils/auth.js';
 import ProtectedRoute from './ProtectedRoute';
+import InfoTooltip from './InfoTooltip';
 
 
 
@@ -30,7 +31,10 @@ const [selectedCard, setSelectedCard] = React.useState({});
 
 const [currentUser, setCurrentUser] = React.useState({}); 
 
+const [registerStatus, setRegisterStatus] = React.useState(false);
+const [status, setStatus] = React.useState(false);
 const [loggedIn, setLoggedIn] = React.useState(false);
+const [userEmail, setUserEmail] = React.useState('');
 const history = useHistory();
 
 React.useEffect( () => {
@@ -84,6 +88,7 @@ function closeAllPopups() {
   setIsEditAvatarPopupOpen(false);
   setIsAddPlacePopupOpen(false);
   setSelectedCard({});
+  setStatus(false);
 }
 const [cards, setCards] = React.useState([]);
   React.useEffect( () => {
@@ -139,7 +144,10 @@ const [cards, setCards] = React.useState([]);
   }
 
   function handleRegister(email, password) {
+    setStatus(true);
+    
     return auth.register(email, password).then(() => {
+      setRegisterStatus(true);
       history.push('/sign-in')
     })
   }
@@ -161,6 +169,7 @@ const [cards, setCards] = React.useState([]);
       let jwt = localStorage.getItem('jwt');
       auth.getContent(jwt).then((res) => {
         if(res) {
+          setUserEmail(res.data.email);
           setLoggedIn(true);
         }
       })
@@ -179,14 +188,16 @@ return (
   
     <ProtectedRoute path="/" loggedIn={loggedIn}>
     
-    <Header link="Выйти"/>
+    <Header name="Выйти" 
+            link="/sign-in"
+            email={userEmail}/>
       <Main 
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick}
         onEditAvatar={handleEditAvatarClick}
         onCardClick={handleCardClick}
         cards={cards}
-       handleCardLike={handleCardLike}
+        handleCardLike={handleCardLike}
         handleCardDelete={handleCardDelete}/>
     </ProtectedRoute>
     <Footer />
@@ -208,11 +219,16 @@ return (
     <ImagePopup card={selectedCard} 
                 onClose={closeAllPopups}/>
 
+    <InfoTooltip status={status} 
+                 registerStatus={registerStatus}
+                 onClose={closeAllPopups}/>
+
 <Route path="/sign-in">
   <Login handleLogin={handleLogin}/>
 </Route>
 <Route path="/sign-up">
-  <Register handleRegister={handleRegister} link={"/sign-in"}/>
+  <Register handleRegister={handleRegister} 
+            link={"/sign-in"}/>
 </Route>
 <Route>
   {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
