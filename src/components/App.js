@@ -18,10 +18,6 @@ import * as auth from '../utils/auth.js';
 import ProtectedRoute from './ProtectedRoute';
 import InfoTooltip from './InfoTooltip';
 
-
-
-
-
 function App() {
 
 const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -160,6 +156,7 @@ const [cards, setCards] = React.useState([]);
           
           tokenCheck();
         }
+        else {setStatus(true)}
       })
   }
 
@@ -182,6 +179,9 @@ const [cards, setCards] = React.useState([]);
     history.push('/sign-in')
   }
 
+  React.useEffect(() => {
+    tokenCheck();
+  }, []);
 
 return (
 <>
@@ -245,9 +245,6 @@ return (
   </div> 
 </body>
 </CurrentUserContext.Provider>
-
-
-
 
 </>
 );

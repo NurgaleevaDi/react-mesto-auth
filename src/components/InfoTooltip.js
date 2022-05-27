@@ -2,10 +2,9 @@ import React from "react";
 import positivStatus from "../images/positivStatus.svg";
 import negativeStatus from "../images/negativeStatus.svg";
 
-
 function InfoTooltip(props) {
 
-return(
+  return(
     <div className={`popup ${props.status ? 'popup_opened' : ''}`}>
       <div className="popup-overlay popup__close">
         <div className="popup__content"> 
@@ -19,8 +18,7 @@ return(
       </div>
     </div>
    
-   
-    )
+  )
 }
 
 export default InfoTooltip;
