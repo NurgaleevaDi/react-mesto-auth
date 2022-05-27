@@ -63,7 +63,7 @@ function App() {
           console.log(err);
         });
     }
-  }, []);
+  }, [loggedIn]);
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
@@ -170,14 +170,16 @@ function App() {
   function handleRegister(email, password) {
     setStatusOpenPopup(true);
 
-    return auth.register(email, password).then(() => {
-      setStatusMessage("Вы успешно зарегистрировались!");
-      setStatusImg(true);
-      history.push("/sign-in");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    return auth
+      .register(email, password)
+      .then(() => {
+        setStatusMessage("Вы успешно зарегистрировались!");
+        setStatusImg(true);
+        history.push("/sign-in");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   function handleLogin(email, password) {
@@ -200,15 +202,19 @@ function App() {
   function tokenCheck() {
     if (localStorage.getItem("jwt")) {
       let jwt = localStorage.getItem("jwt");
-      auth.getContent(jwt).then((res) => {
-        if (res) {
-          setUserEmail(res.data.email);
-          setLoggedIn(true);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      auth
+        .getContent(jwt)
+        .then((res) => {
+          if (res) {
+            setUserEmail(res.data.email);
+
+            setLoggedIn(true);
+            console.log(loggedIn);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }
 
@@ -233,7 +239,7 @@ function App() {
       <body className="page">
         <div className="page__container">
           <Switch>
-            <ProtectedRoute path="/" loggedIn={loggedIn}>
+            <ProtectedRoute exact path="/" loggedIn={loggedIn}>
               <Header
                 name="Выйти"
                 link="/sign-in"
@@ -249,8 +255,17 @@ function App() {
                 handleCardLike={handleCardLike}
                 handleCardDelete={handleCardDelete}
               />
+              <Footer />
             </ProtectedRoute>
-            <Footer />
+            <Route path="/sign-up">
+            <Register handleRegister={handleRegister} link={"/sign-in"} />
+            </Route>
+            <Route path="/sign-in" exact>
+            <Login handleLogin={handleLogin} />
+          </Route>
+          <Route>
+            {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
+          </Route>
           </Switch>
 
           <EditProfilePopup
@@ -278,16 +293,9 @@ function App() {
             statusImg={statusImg}
             onClose={closeAllPopups}
           />
-
-          <Route path="/sign-in">
-            <Login handleLogin={handleLogin} />
-          </Route>
-          <Route path="/sign-up">
-            <Register handleRegister={handleRegister} link={"/sign-in"} />
-          </Route>
-          <Route>
-            {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
-          </Route>
+         
+          
+          
         </div>
       </body>
     </CurrentUserContext.Provider>
