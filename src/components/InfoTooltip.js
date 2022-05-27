@@ -4,7 +4,7 @@ import negativeStatus from "../images/negativeStatus.svg";
 
 function InfoTooltip(props) {
   return (
-    <div className={`popup ${props.status ? "popup_opened" : ""}`}>
+    <div className={`popup ${props.statusOpenPopup ? "popup_opened" : ""}`}>
       <div className="popup-overlay popup__close">
         <div className="popup__content">
           <button
@@ -18,12 +18,10 @@ function InfoTooltip(props) {
           >
             <img
               className="popup__input-image"
-              src={props.registerStatus ? positivStatus : negativeStatus}
+              src={props.statusImg ? positivStatus : negativeStatus}
             ></img>
             <h2 className="popup__input-status">
-              {props.registerStatus
-                ? "Вы успешно зарегистрировались!"
-                : "Что-то пошло не так! Попробуйте еще раз."}
+              {props.statusMessage}
             </h2>
           </form>
         </div>

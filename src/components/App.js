@@ -28,36 +28,41 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
 
-  const [registerStatus, setRegisterStatus] = useState(false);
-  const [status, setStatus] = useState(false);
+  const [statusMessage, setStatusMessage] = useState(
+    "Что-то пошло не так! Попробуйте еще раз."
+  );
+  const [statusOpenPopup, setStatusOpenPopup] = useState(false);
+  const [statusImg, setStatusImg] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const history = useHistory();
 
   useEffect(() => {
-    Api.getUserData()
-      .then((data) => {
-        setCurrentUser(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    Api.getCards(cards)
-      .then((data) => {
-        setCards(
-          data.map((card) => ({
-            src: card.link,
-            name: card.name,
-            alt: card.name,
-            id: card._id,
-            owner: card.owner,
-            likes: card.likes,
-          }))
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (loggedIn) {
+      Api.getUserData()
+        .then((data) => {
+          setCurrentUser(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      Api.getCards(cards)
+        .then((data) => {
+          setCards(
+            data.map((card) => ({
+              src: card.link,
+              name: card.name,
+              alt: card.name,
+              id: card._id,
+              owner: card.owner,
+              likes: card.likes,
+            }))
+          );
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }, []);
 
   function handleEditProfileClick() {
@@ -100,7 +105,7 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setSelectedCard({});
-    setStatus(false);
+    setStatusOpenPopup(false);
   }
 
   // useEffect( () => {
@@ -163,24 +168,33 @@ function App() {
   }
 
   function handleRegister(email, password) {
-    setStatus(true);
+    setStatusOpenPopup(true);
 
     return auth.register(email, password).then(() => {
-      setRegisterStatus(true);
+      setStatusMessage("Вы успешно зарегистрировались!");
+      setStatusImg(true);
       history.push("/sign-in");
+    })
+    .catch((err) => {
+      console.log(err);
     });
   }
 
   function handleLogin(email, password) {
-    return auth.authorize(email, password).then((data) => {
-      if (data.token) {
-        localStorage.setItem("jwt", data.token);
+    return auth
+      .authorize(email, password)
+      .then((data) => {
+        if (data.token) {
+          localStorage.setItem("jwt", data.token);
 
-        tokenCheck();
-      } else {
-        setStatus(true);
-      }
-    });
+          tokenCheck();
+        }
+      })
+      .catch((err) => {
+        setStatusOpenPopup(true);
+        setStatusMessage("Что-то пошло не так! Попробуйте еще раз.");
+        console.log(err);
+      });
   }
 
   function tokenCheck() {
@@ -191,6 +205,9 @@ function App() {
           setUserEmail(res.data.email);
           setLoggedIn(true);
         }
+      })
+      .catch((err) => {
+        console.log(err);
       });
     }
   }
@@ -204,6 +221,12 @@ function App() {
   useEffect(() => {
     tokenCheck();
   }, []);
+
+  useEffect(() => {
+    if (loggedIn) {
+      history.push("/");
+    }
+  }, [loggedIn]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -250,8 +273,9 @@ function App() {
           <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 
           <InfoTooltip
-            status={status}
-            registerStatus={registerStatus}
+            statusOpenPopup={statusOpenPopup}
+            statusMessage={statusMessage}
+            statusImg={statusImg}
             onClose={closeAllPopups}
           />
 
