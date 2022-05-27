@@ -1,20 +1,10 @@
 import React from "react";
-import PopupWithForm from "./PopupWithForm";
+import positivStatus from "../images/positivStatus.svg";
+import negativeStatus from "../images/negativeStatus.svg";
 
 
 function InfoTooltip(props) {
-//   const urlRef = React.useRef('');
 
-//   function handleSubmit(e) {
-//     e.preventDefault();
-//     props.onUpdateAvatar({
-//       avatar: urlRef.current.value,
-//     });
-   
-//   }
-//   React.useEffect(()=>{
-//     urlRef.current.value=''
-//   }, [props.isOpen])
 return(
     <div className={`popup ${props.status ? 'popup_opened' : ''}`}>
       <div className="popup-overlay popup__close">
@@ -22,7 +12,8 @@ return(
           <button className="popup__button popup__close" type="button" onClick={props.onClose}>
           </button>
           <form className="popup__input popup__input_profile" name="popup__input_profile" >
-          <h2 className="popup__input-title">{props.registerStatus ? 'ok' : 'err'}</h2>
+            <img className="popup__input-image" src={props.registerStatus ? positivStatus : negativeStatus}></img>
+            <h2 className="popup__input-status">{props.registerStatus ? 'Вы успешно зарегистрировались!' : 'Что-то пошло не так! Попробуйте еще раз.'}</h2>
           </form>
         </div>
       </div>

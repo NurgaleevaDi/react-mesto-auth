@@ -176,6 +176,12 @@ const [cards, setCards] = React.useState([]);
     }
   }
 
+  function handleSignOut() {
+    localStorage.removeItem('jwt');
+    setLoggedIn(false);
+    history.push('/sign-in')
+  }
+
 
 return (
 <>
@@ -190,7 +196,9 @@ return (
     
     <Header name="Выйти" 
             link="/sign-in"
-            email={userEmail}/>
+            email={userEmail}
+            handleSignOut={handleSignOut}
+            />
       <Main 
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick}

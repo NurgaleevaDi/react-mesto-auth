@@ -7,8 +7,9 @@ function Header(props) {
         <header className="header section page__header">
           <img className="header__logo" src={logo} alt="Логотип Место Россия"/> 
           <div className="header__info-container">
-          <p className="header__user-info">{props.email}</p>
-          <Link to={props.link} className="header__link">{props.name}</Link>   
+            <p className="header__user-info">{props.email}</p>
+            <button className="header__button" onClick={props.handleSignOut}>{props.name}</button> 
+            <Link to={props.link} className="header__link">{props.nameLink}</Link>  
           </div>  
         </header>
       </>
