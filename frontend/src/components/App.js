@@ -258,14 +258,14 @@ function App() {
               <Footer />
             </ProtectedRoute>
             <Route path="/sign-up">
-            <Register handleRegister={handleRegister} link={"/sign-in"} />
+              <Register handleRegister={handleRegister} link={"/sign-in"} />
             </Route>
             <Route path="/sign-in" exact>
-            <Login handleLogin={handleLogin} />
-          </Route>
-          <Route>
-            {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
-          </Route>
+              <Login handleLogin={handleLogin} />
+            </Route>
+            <Route>
+              {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
+            </Route>
           </Switch>
 
           <EditProfilePopup
@@ -293,9 +293,6 @@ function App() {
             statusImg={statusImg}
             onClose={closeAllPopups}
           />
-         
-          
-          
         </div>
       </body>
     </CurrentUserContext.Provider>
